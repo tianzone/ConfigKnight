@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Power by Tianz</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="main-view">
+            <h1>Can you see me?</h1>
+            <br>
+            <p style="color: chocolate;">{{promptText}}</p>
+            <br>
+            <button v-on:click="ImcrementVal( '$event' )">{{btnVal}}</button>
+        </div>
+
+        <!-- The javascript part -->
+        <script>
+            var vm = new Vue({
+                el: "#main-view",
+                data: {
+                    promptText: "This's really very funning",
+                    btnVal: 0
+                },
+
+                methods: {
+                    ImcrementVal: function( e ){
+                        this.btnVal++
+                        console.log( 'Current Val: ' + this.btnVal )
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

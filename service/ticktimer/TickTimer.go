@@ -11,7 +11,7 @@ import(
 	"fmt"
 
 	"net/http"
-	"io/ioutil"
+	// "io/ioutil"
 
 	"time"
 )
@@ -32,15 +32,15 @@ type Timer struct{
 
 // The web request handler
 func (t Timer) ServeHTTP( w http.ResponseWriter, r *http.Request){
-	defer r.Body.Close()
-
+	
 	// Print the request body
-	if buf, err := ioutil.ReadAll( r.Body ); err != nil{
-		fmt.Printf( "Real request's body met error: %s\n", err )
-	}else{
-		fmt.Println( buf )
-	}
-
+	// if buf, err := ioutil.ReadAll( r.Body ); err != nil{
+	// 	fmt.Printf( "Real request's body met error: %s\n", err )
+	// }else{
+	// 	fmt.Println( buf )
+	// }
+	fmt.Println( r.URL )
+	defer r.Body.Close()
 	// Respond the req
 	fmt.Fprint( w, "I have received your messages..." )
 }

@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Power by Tianz</title>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js"></script>
     </head>
     <body>
         <div id="main-view">
@@ -16,6 +16,17 @@
 
         <!-- The javascript part -->
         <script>
+			var RequestGet = function( data, callbackFunc ){
+				axios.get('/timer',{
+					params: {
+						interval: data
+					}
+				}).then(response=>{
+					callbackFunc( response )
+				}).catch(error=>{
+					console.debug( 'Get error' + error )
+				})
+			}
             var vm = new Vue({
                 el: "#main-view",
                 data: {
@@ -27,7 +38,12 @@
                     ImcrementVal: function( e ){
                         this.btnVal++
                         console.log( 'Current Val: ' + this.btnVal )
-                    }
+						
+						RequestGet( this.btnVal, this.getReqCbFunc )
+                    },
+					getReqCbFunc: function( response ){
+						this.promptText = response.data
+					}
                 }
             })
         </script>

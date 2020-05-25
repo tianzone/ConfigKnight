@@ -47,11 +47,15 @@ func main(){
 	// }
 
 	// Register the handler that handle the request of static file
-	http.Handle( "/", http.FileServer( http.Dir( "./www" ) ) )
+	http.Handle( "/", http.FileServer( http.Dir( "../webck/dist/" ) ) )
 
 	// The ticktimer
 	timer := ticktimer.Timer{}
-	http.Handle( "/timer", timer )
+	// Run the timer.
+	timer.Run()
+
+	// Register the timer as a http request handler
+	http.Handle( "/ticktimer", &timer )
 
 	// Start the heep server
 	log.Fatal( http.ListenAndServe( addr, nil ) )

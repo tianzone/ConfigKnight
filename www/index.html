@@ -12,7 +12,12 @@
             <p style="color: chocolate;">{{promptText}}</p>
             <br>
             <button v-on:click="ImcrementVal( '$event' )">{{btnVal}}</button>
+			
+			<!-- Use Login componrnt -->
+			<login-comp  @login-request='HandlerNewLoginReqFunc'>Can I add something here?</LoginComp>
         </div>
+		
+		<!-- Login component template -->
 
         <!-- The javascript part -->
         <script>
@@ -27,6 +32,59 @@
 					console.debug( 'Get error' + error )
 				})
 			}
+			
+			// Definition a custom component that provides the login function.
+			Vue.component('login-comp', {
+				// Define the set of property
+				props:{
+					'titile': {
+						type: String,
+						default: 'Hello, login ststem'
+					}
+				},
+				// Define the HTML template
+				template: `
+						<div class="login-div">
+							<span id="login-titile">{{titile}}</span>
+							<br />
+							<label id="login-user-name">user name:</label>
+							<input type="text" v-model="userName" />
+							<br />
+							<label id="login-user-password">password:</label>
+							<input type="password" v-model="userPassword" />
+							<br />
+							<button
+									id="login-confirm-btn"
+									@click="loginConfirmFunc( '$event' )"
+							>
+							Confirm
+							</button>
+							<br />
+							<span>Current data:{{userData}}</span>
+							
+							<slot></slot>
+						</div>
+				`,
+				data: function(){
+					return {
+						userName: '',
+						userPassword: ''
+					}
+				},
+				methods: {
+					loginConfirmFunc: function( e ){						
+						// Emit the event to those subscripters.
+						console.log( 'In logincmp =>\nName: ' + this.userName + '\nPassword: ' + this.userPassword )
+						this.$emit( 'login-request', this.userName, this.userPassword )
+					},
+				},
+				computed:{
+					userData: function(){
+						return 'Name: ' + this.userName + ', password: ' + this.userPassword
+					}
+				}
+			})
+
             var vm = new Vue({
                 el: "#main-view",
                 data: {
@@ -43,6 +101,9 @@
                     },
 					getReqCbFunc: function( response ){
 						this.promptText = response.data
+					},
+					HandlerNewLoginReqFunc: function( name, pw ){
+						console.log( 'In top view =>\nName: ' + name + '\nPassword: ' + pw )
 					}
                 }
             })
